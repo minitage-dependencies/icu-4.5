@@ -1,0 +1,34 @@
+diff -ur icu/source/config/mh-darwin icu.new/source/config/mh-darwin
+--- icu/source/config/mh-darwin	2009-08-27 03:19:35.000000000 +0200
++++ icu.new/source/config/mh-darwin	2011-03-27 14:08:29.000000000 +0200
+@@ -21,8 +21,8 @@
+ COMPILE.cc=	$(CXX) $(DEFS) $(CPPFLAGS) $(CXXFLAGS) -fno-common -c
+ 
+ ## Commands to make a shared library
+-SHLIB.c=	$(CC) -dynamiclib -dynamic $(CFLAGS) $(LDFLAGS) $(LD_SOOPTIONS)
+-SHLIB.cc=	$(CXX) -dynamiclib -dynamic $(CXXFLAGS) $(LDFLAGS) $(LD_SOOPTIONS)
++SHLIB.c=	$(CC) -dynamiclib -dynamic $(CFLAGS)    -Wl,-rpath $(LDFLAGS) $(LD_SOOPTIONS)
++SHLIB.cc=	$(CXX) -dynamiclib -dynamic $(CXXFLAGS) -Wl,-rpath $(LDFLAGS) $(LD_SOOPTIONS)
+ 
+ ## Compiler switches to embed a library name and version information
+ LD_SONAME = -Wl,-compatibility_version -Wl,$(SO_TARGET_VERSION_MAJOR) -Wl,-current_version -Wl,$(SO_TARGET_VERSION) -install_name $(notdir $(MIDDLE_SO_TARGET))
+diff -ur icu/source/icudefs.mk.in icu.new/source/icudefs.mk.in
+--- icu/source/icudefs.mk.in	2010-10-05 01:55:47.000000000 +0200
++++ icu.new/source/icudefs.mk.in	2011-03-27 14:19:16.000000000 +0200
+@@ -166,12 +166,12 @@
+ COMPILE.cc=   $(CXX) $(CPPFLAGS) $(DEFS) $(CXXFLAGS) -c
+ 
+ # Commands to link
+-LINK.c=       $(CC) $(CFLAGS) $(LDFLAGS)
+-LINK.cc=      $(CXX) $(CXXFLAGS) $(LDFLAGS)
++LINK.c=       $(CC) $(CFLAGS) -Wl,-rpath $(LDFLAGS)
++LINK.cc=      $(CXX) $(CXXFLAGS) -Wl,-rpath $(LDFLAGS)
+ 
+ # Commands to make a shared library
+-SHLIB.c=      $(CC) $(CFLAGS) $(LDFLAGS) -shared $(LD_SOOPTIONS)
+-SHLIB.cc=     $(CXX) $(CXXFLAGS) $(LDFLAGS) -shared $(LD_SOOPTIONS)
++SHLIB.c=      $(CC) $(CFLAGS) -Wl,-rpath $(LDFLAGS) -shared $(LD_SOOPTIONS)
++SHLIB.cc=     $(CXX) $(CXXFLAGS) -Wl,-rpath $(LDFLAGS) -shared $(LD_SOOPTIONS)
+ 
+ # Environment variable to set a runtime search path
+ LDLIBRARYPATH_ENVVAR = LD_LIBRARY_PATH
